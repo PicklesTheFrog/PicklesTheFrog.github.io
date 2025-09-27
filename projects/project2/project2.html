@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Zero - Billy Ou</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <h1 class="logo"><a href="../../index.html">My Portfolio</a></h1>
+      <ul>
+        <li><a href="../../index.html#about">About</a></li>
+        <li><a href="../../index.html#projects">Projects</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Project Two: Fun with Filters and Frequencies!</h2>
+
+    <h3>Part 1.1</h3>
+    <p>
+        The following is code to implement convolution using numpy functions with 4 and 2 loops. 
+        Although the runtimes of my implemented convolve functions are decent, 
+        they are significantly slower than the scipy.signal.convolve2d implementation.
+        For convolving an 100x100 array with an 11x11 kernel, it took the 4 loop implementation 0.86s, 
+        the 2 loop implementation 0.067s and the SciPy implementation 0.0035s, making the Scipy implementation around
+        20 times faster than the 2 loop implementaion and around 250 times faster than the 4 loop implementation. 
+        My implemenation always zero pads and produces an array of equal size as the input,
+        while scipy.signal.convolve2d is customizable, although it defaults to a full convolution with zero padding, 
+        making the output larger than the input.
+        <pre><code>
+def convolve_pad_4(arr, kernel):
+    kernel = np.flip(kernel, axis=(0, 1)) 
+    a_shape = arr.shape
+    k_shape = kernel.shape
+
+    if k_shape[0] % 2 != 1 or k_shape[1] % 2 != 1:
+        return None
+    
+    pad_h = k_shape[0] // 2
+    pad_w = k_shape[1] // 2
+
+    padded_arr = np.pad(arr, pad_width=((pad_h, pad_h), (pad_w, pad_w)), mode='constant', constant_values=0)
+    result = np.zeros(a_shape)
+
+    for row in range(a_shape[0]):
+        for col in range(a_shape[1]):
+            acc = 0
+            for r in range(k_shape[0]):
+                for c in range(k_shape[1]):
+                    acc += padded_arr[row + r][col + c] * kernel[r][c]
+            result[row][col] = acc
+
+    return result
+
+def convolve_pad_2(arr, kernel):
+    kernel = np.flip(kernel, axis=(0, 1))
+    shape = arr.shape
+    k_shape = kernel.shape
+
+    if k_shape[0] % 2 == 0 or k_shape[1] % 2 == 0:
+        return None
+
+    pad_h, pad_w = k_shape[0] // 2, k_shape[1] // 2
+    padded = np.pad(arr, ((pad_h, pad_h), (pad_w, pad_w)), mode='constant', constant_values=0)
+    result = np.zeros(shape)
+
+    for row in range(arr.shape[0]):
+        for col in range(arr.shape[1]):
+            region = padded[row:row + k_shape[0], col:col + k_shape[1]]
+            result[row, col] = np.sum(region * kernel)
+
+    return result
+        </code></pre>
+    </p>
+
+    <h3>Part 1.2</h3>
+    <p>
+        Partial derivatives of the cameraman in x and y. <br>
+        <img src="images/cameraman_fdo_dx.png" alt="cameraman_fdo_dx" width="40%">
+        <img src="images/cameraman_fdo_dy.png" alt="cameraman_fdo_dy" width="40%"><br>
+        Gradient magnitude image and binarized edge image of cameraman. 
+        (A threshold of 0.2 was used for the binarized image to keep most of the person while eliminating most of the noise and background)<br>
+        <img src="images/cameraman_fdo.png" alt="cameraman_fdo" width="40%">
+        <img src="images/cameraman_fdo_binary.png" alt="cameraman_fdo_binary" width="40%">
+    </p>
+
+    <h3>Part 1.3</h3>
+    <p>
+        Gaussian smoothing and Derivative of Gaussian filters applied to cameraman image. 
+        The resulting images have thicker and smoother lines. However, some details are lost, especially in the camera.<br>
+        <img src="images/cameraman_dog.png" alt="cameraman_dog" width="45%">
+        <img src="images/cameraman_dog_2.png" alt="cameraman_dog_2" width="45%"><br>
+        Gaussian filter and Derivative of Gaussian Filters.<br>
+        <img src="images/gaussian.jpg" alt="gaussian" width="30%">
+        <img src="images/gaussian_dx.jpg" alt="gaussian_dx" width="30%">
+        <img src="images/gaussian_dy.jpg" alt="gaussian_dy" width="30%"><br>
+
+    </p>
+
+    <h3>Part 2.1</h3>
+    <p>
+        Sharpening an image is achieved by the equation: 
+        sharp_image = image + a*high_frequencies, high_frequencies = image - blurred_iamge, a = constant.<br>
+        Blurred, high Frequencies, and Sharpened versions of the Taj Mahal. (a = 3, 10) <br>
+        <img src="images/blur_taj.jpg" alt="blur_taj" width="23%">
+        <img src="images/high_taj.jpg" alt="high_taj" width="23%">
+        <img src="images/sharp_taj.jpg" alt="sharp_taj" width="23%">
+        <img src="images/very_sharp_taj.jpg" alt="very_sharp_taj" width="23%"><br>
+        Blurred, high Frequencies, and Sharpened versions of Pickles The Frog. (a = 3, 10) <br>
+        <img src="images/blur_pickles.jpg" alt="blur_pickles" width="23%">
+        <img src="images/high_pickles.jpg" alt="high_pickles" width="23%">
+        <img src="images/sharp_pickles.jpg" alt="sharp_pickles" width="23%">
+        <img src="images/very_sharp_pickles.jpg" alt="very_sharp_pickles" width="23%"><br>
+
+    </p>
+    
+    <h3>Part 2.2</h3>
+    <p>
+        Hybrid image of Derek and Nutmeg <br>
+        <img src="images/DerekPicture.jpg" alt="Derek" width="30%">
+        <img src="images/nutmeg.jpg" alt="nutmeg" width="30%">
+        <img src="images/hybrid.jpg" alt="hybrid" width="30%"><br>
+        Hybrid image of Lebron James and another goat (sigma1 = 1, sigma2 = 8) <br>
+        <img src="images/lebron_james.jpeg" alt="lebron_james" width="30%">
+        <img src="images/goat.jpeg" alt="goat" width="30%">
+        <img src="images/hybrid_2.jpg" alt="hybrid_2" width="30%"><br>
+
+        Aligned images of Lebron and another goat. <br>
+        <img src="images/lebron_aligned.png" alt="lebron_aligned" width="45%">
+        <img src="images/goat_aligned.png" alt="goat" width="45%"><br>
+
+        Fourier transform of Lebron, filtered Fourier transform of Lebron, 
+        Fourier transform of goat, and filtered Fourier transform of goat (left to right)<br>
+        <img src="images/lebron_log.jpg" alt="lebron_log" width="23%">
+        <img src="images/low_lebron_log.jpg" alt="low_lebron_log" width="23%">
+        <img src="images/goat_log.jpg" alt="goat_log" width="23%">
+        <img src="images/high_goat_log.jpg" alt="high_goat_log" width="23%"><br>
+
+        Hybrid image of Diddy and Drake (sigma1 = 2, sigma2 = 6) <br>
+        <img src="images/diddy.jpeg" alt="lebron_log" width="30%">
+        <img src="images/drake.jpeg" alt="low_lebron_log" width="30%">
+        <img src="images/hybrid_3.jpg" alt="goat_log" width="30%"><br>
+
+    </p>
+
+    <h3>Part 2.3 + 2.4</h3>
+    <p>
+        Apple blended with Orange: the Oraple<br>
+        <img src="images/apple.jpeg" alt="apple" width="30%">
+        <img src="images/orange.jpeg" alt="orange" width="30%">
+        <img src="images/blend.jpg" alt="blend" width="30%"><br>
+        Intermediate Images (Gaussian and Laplacian Stacks)<br>
+        <img src="images/apple_lap0.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap0.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap0.jpg" alt="blend" width="30%"><br>
+        <img src="images/apple_lap3.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap3.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap3.jpg" alt="blend" width="30%"><br>
+        <img src="images/apple_lap6.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap6.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap6.jpg" alt="blend" width="30%"><br>
+        <img src="images/apple_lap9.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap9.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap9.jpg" alt="blend" width="30%"><br>
+        <img src="images/apple_lap12.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap12.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap12.jpg" alt="blend" width="30%"><br>
+        <img src="images/apple_lap14.jpg" alt="apple" width="30%">
+        <img src="images/orange_lap14.jpg" alt="orange" width="30%">
+        <img src="images/blend_lap14.jpg" alt="blend" width="30%"><br>
+
+        Stanford blended with hell<br>
+        <img src="images/stanford.jpg" alt="stanford" width="30%">
+        <img src="images/hell.jpg" alt="hell" width="30%">
+        <img src="images/blend_2.jpg" alt="blend" width="30%"><br>
+
+        A Cat and Dog blended together<br>
+        <img src="images/cat.jpg" alt="cat" width="30%">
+        <img src="images/dog.jpg" alt="dog" width="30%">
+        <img src="images/blend_3.jpg" alt="blend" width="30%"><br>
+
+
+
+    </p>
+
+  </section>
+
+  <footer>
+    <p>© 2025 Billy Ou. All rights reserved.</p>
+  </footer>
+</body>
+</html>
