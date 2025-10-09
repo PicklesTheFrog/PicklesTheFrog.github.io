@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Three (Part A): Image Warping and Mosaicing</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <h1 class="logo"><a href="../../index.html">My Portfolio</a></h1>
+      <ul>
+        <li><a href="../../index.html#about">About</a></li>
+        <li><a href="../../index.html#projects">Projects</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Project Three (Part A): Image Warping and Mosaicing</h2>
+    <h3>A.1: Shoot the Pictures</h3>
+    <p>The following images are unedited photos taken from the same center of project.
+      Later this project, they will be stitched together into a mosaic.</p>
+    <h4>View of Apartment</h4>
+    <p>
+        <img src="images/view_left.jpg" alt="view_left" width="30%">
+        <img src="images/view_mid.jpg" alt="view_mid" width="30%">
+        <img src="images/view_right.jpg" alt="view_right" width="30%"><br>
+    </p>
+    <h4>Campanile</h4>
+    <p>
+        <img src="images/tower_bot.jpg" alt="tower_bot" width="30%">
+        <img src="images/tower_mid.jpg" alt="tower_mid" width="30%">
+        <img src="images/tower_top.jpg" alt="tower_top" width="30%"><br>
+    </p>
+    <h4>Inside Doe Library</h4>
+    <p>
+        <img src="images/library_left.jpg" alt="library_left" width="30%">
+        <img src="images/library_mid.jpg" alt="library_mid" width="30%">
+        <img src="images/library_right.jpg" alt="library_right" width="30%"><br>
+    </p>
+    <br>
+
+    <h3>A.2:  Recover Homographies</h3>
+    <h4>Outside Doe Library</h4>
+    <p>
+        <img src="images/doe_correspondences.jpg" alt="doe_correspondences" width="45%">
+        <img src="images/rectified_doe_correspondences.jpg" alt="rectified_doe_correspondences" width="45%"><br>
+        <p>The following matrix is the system of equations used to derive the homography matrix for the outside of doe image:</p>        
+        <pre><code>
+[[ 8.14000e+02  1.54000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -6.62596e+05 -1.25356e+05]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  8.14000e+02  1.54000e+02 1.00000e+00 -1.25356e+05 -2.37160e+04]
+ [ 2.18000e+02  3.03000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -4.57800e+04 -6.36300e+04]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  2.18000e+02  3.03000e+02 1.00000e+00 -3.35720e+04 -4.66620e+04]
+ [ 8.22000e+02  3.17000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -6.75684e+05 -2.60574e+05]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  8.22000e+02  3.17000e+02 1.00000e+00 -2.60574e+05 -1.00489e+05]
+ [ 2.15000e+02  3.89000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -4.51500e+04 -8.16900e+04]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  2.15000e+02  3.89000e+02 1.00000e+00 -6.81550e+04 -1.23313e+05]]
+        </code></pre>
+        <p>The following matrix is the homography matrix for the outside of doe image:</p>        
+        <pre><code>
+[[ 3.50127679e+00  1.17416658e-01 -4.76550389e+02]
+ [ 1.09761736e+00  2.94011877e+00 -8.93779426e+02]
+ [ 2.36950956e-03  6.01768141e-05  1.00000000e+00]]
+        </code></pre>
+    </p>
+    <h4>Flagpole</h4>
+    <p>
+        <img src="images/flagpole_correspondences.jpg" alt="flagpole_correspondences" width="45%">
+        <img src="images/rectified_flagpole_correspondences.jpg" alt="rectified_flagpole_correspondences" width="45%"><br>
+        <p>The following matrix is the system of equations used to derive the homography matrix for the flagpole image:</p>        
+        <pre><code>
+[[ 3.67000e+02  2.14000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -1.35056e+05 -7.87520e+04]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  3.67000e+02  2.14000e+02 1.00000e+00 -7.74370e+04 -4.51540e+04]
+ [ 3.73000e+02  4.52000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -1.39502e+05 -1.69048e+05]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  3.73000e+02  4.52000e+02 1.00000e+00 -1.67850e+05 -2.03400e+05]
+ [ 4.62000e+02  2.82000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -2.17140e+05 -1.32540e+05]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  4.62000e+02  2.82000e+02 1.00000e+00 -9.88680e+04 -6.03480e+04]
+ [ 4.89000e+02  5.09000e+02  1.00000e+00  0.00000e+00  0.00000e+00 0.00000e+00 -2.37654e+05 -2.47374e+05]
+ [ 0.00000e+00  0.00000e+00  0.00000e+00  4.89000e+02  5.09000e+02 1.00000e+00 -2.20050e+05 -2.29050e+05]]
+        </code></pre>
+        <p>The following matrix is the homography matrix for the flagpole image:</p>        
+        <pre><code>
+[[ 3.84188115e-01  1.76378290e-01  9.66247813e+01]
+ [-8.06176560e-01  9.72922979e-01  2.45548207e+02]
+ [-9.60691909e-04  4.71276666e-04  1.00000000e+00]]
+        </code></pre>
+    </p>
+    <h3>A.3: Warp the Images</h3>
+    <p>These are rectifications of images using bilinear and nearest neighbors interpolation. 
+      While similar, bilinear creates more robust outputs where as nearest neighbors has a more blocky result, 
+      especially in smaller images. </p>
+    <h4>Outside of Doe (Regular, Bilinear, Nearest Neighbors)</h4>
+    <p>
+        <img src="images/doe.jpg" alt="doe" width="90%"><br>
+        <img src="images/rectified_doe.jpg" alt="rectified_doe" width="90%"><br>
+        <img src="images/rectified_nn_doe.jpg" alt="rectified_nn_doe" width="90%"><br>
+    </p>
+    <h4>Flagpole (Regular, Bilinear, Nearest Neighbors)</h4>
+    <p>
+        <img src="images/flagpole.jpg" alt="flagpole" width="90%"><br>
+        <img src="images/rectified_flagpole.jpg" alt="rectified_flagpole" width="90%"><br>
+        <img src="images/rectified_nn_flagpole.jpg" alt="rectified_nn_flagpole" width="90%"><br>
+    </p>
+    <h3>A.4: Blend the Images into a Mosaic</h3>
+    <p>Below are 3 mosaics. The process to create mosaics are as follows: 
+      First take photos of a scene from the same fixed center of projection. 
+      Then, map points between one image and a neigboring images. 
+      Using those correspondences, derive a homography and project the latter image onto the plane of the orignal image.
+      In order to blend these two images, create a mask over the shape of each image on the same plane,
+      making each point equal to the shortest distance from that point to an edge, then normalized. Then, 
+      binarize the masks: for each point, if the value in mask 1 is larger than the value in mask 2, 
+      set mask 1 to 1 and mask 2 to 0 for that point. Then create a blurred mask for each image, 
+      which is just its binary mask with a guassian applied to it. Finally, apply the guassian masks to their
+      corresponding images' lower frequencies and the regular binary masks to the higher frequencies and combine everything.
+      Repeat for each additional image in the mosaic.
+    </p>
+    <h4>View of Apartments</h4>
+    <p>
+        <img src="images/view_left.jpg" alt="view_left" width="30%">
+        <img src="images/view_mid.jpg" alt="view_mid" width="30%">
+        <img src="images/view_right.jpg" alt="view_right" width="30%"><br>
+        <img src="images/combined_view.jpg" alt="combined_view" width="90%"><br>
+    </p>
+    <h4>Campanile</h4>
+    <p>
+        <img src="images/tower_bot.jpg" alt="tower_bot" width="30%">
+        <img src="images/tower_mid.jpg" alt="tower_mid" width="30%">
+        <img src="images/tower_top.jpg" alt="tower_top" width="30%"><br>
+        <img src="images/combined_tower.jpg" alt="combined_tower" width="90%"><br>
+    </p>
+    <h4>Inside Doe Library</h4>
+    <p>
+        <img src="images/library_left.jpg" alt="library_left" width="30%">
+        <img src="images/library_mid.jpg" alt="library_mid" width="30%">
+        <img src="images/library_right.jpg" alt="library_right" width="30%"><br>
+        <img src="images/combined_library.jpg" alt="combined_library" width="90%"><br>
+    </p>
+
+  </section>
+
+  <footer>
+    <p>© 2025 Billy Ou. All rights reserved.</p>
+  </footer>
+</body>
+</html>
