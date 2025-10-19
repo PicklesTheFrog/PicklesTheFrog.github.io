@@ -140,6 +140,61 @@
     </p>
 
   </section>
+    <h3>B.1: Harris Corner Detection</h3>
+    <p>This is the result of Harris Corner Detection on a picture of a library room. 
+      The left image is without ANMS, and the right image is with ANMS (min_dist = 20) </p>
+    <p>
+        <img src="images/lib_corners_no_ANMS.jpg" alt="lib_corners_no_ANMS" width="45%">
+        <img src="images/lib_corners_AMNS.jpg" alt="lib_corners_AMNS" width="45%"><br>
+    </p>
+
+    <h3>B.2: Feature Descriptor Extraction</h3>
+    <p>These are some feature descriptors for the library image. They are normalized 8x8 patches. 
+      The left image is without ANMS, and the right image is with ANMS (min_dist = 20) </p>
+    <p>
+        <img src="images/lib_descriptor_0.jpg" alt="lib_descriptor_0" width="30%">
+        <img src="images/lib_descriptor_1.jpg" alt="lib_descriptor_1" width="30%">
+        <img src="images/lib_descriptor_2.jpg" alt="lib_descriptor_2" width="30%">
+        <br>
+    </p>
+
+    <h3>B.3: Feature Matching</h3>
+    <p>Below is a pair of images. The points are the correspondences, 
+      and the lines represent the correspondences that are in set of largest inliers.</p>
+    <p><img src="images/lib_matched_features.jpg" alt="lib_matched_features" width="90%"><br></p>
+
+    <h3>B.4: RANSAC for Robust homography</h3>
+    <p>Below are mosaics made by hand picked correspondences (top) and RANSAC (bottom).</p>
+
+    <h4>View of Apartments</h4>
+    <p>
+        <img src="images/view_left.jpg" alt="view_left" width="30%">
+        <img src="images/view_mid.jpg" alt="view_mid" width="30%">
+        <img src="images/view_right.jpg" alt="view_right" width="30%"><br>
+        <img src="images/combined_view.jpg" alt="combined_view" width="90%"><br>
+        <img src="images/auto_combined_view.jpg" alt="auto_combined_view" width="90%"><br>
+    </p>
+
+    <h4>Inside Doe Library</h4>
+    <p>
+        <img src="images/library_left.jpg" alt="library_left" width="30%">
+        <img src="images/library_mid.jpg" alt="library_mid" width="30%">
+        <img src="images/library_right.jpg" alt="library_right" width="30%"><br>
+        <img src="images/combined_library.jpg" alt="combined_library" width="90%"><br>
+        <img src="images/auto_combined_library.jpg" alt="auto_combined_library" width="90%"><br>
+    </p>
+
+    <h4>Campanile</h4>
+    <p>
+        <img src="images/tower_top.jpg" alt="tower_top" width="30%">
+        <img src="images/tower_mid.jpg" alt="tower_mid" width="30%">
+        <img src="images/tower_bot.jpg" alt="tower_bot" width="30%"><br>
+        <img src="images/combined_tower.jpg" alt="combined_tower" width="90%"><br>
+        <img src="images/auto_combined_tower.jpg" alt="auto_combined_tower" width="90%"><br>
+    </p>
+  <section>
+
+  </section>
 
   <footer>
     <p>© 2025 Billy Ou. All rights reserved.</p>
