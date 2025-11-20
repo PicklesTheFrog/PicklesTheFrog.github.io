@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0082)file:///Users/Billy/CS180/PicklesTheFrog.github.io/projects/project4/project4.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Four: Neural Radiance Field</title>
+  <link rel="stylesheet" href="./Project Four_ Neural Radiance Field_files/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <h1 class="logo"><a href="file:///Users/Billy/CS180/PicklesTheFrog.github.io/index.html">My Portfolio</a></h1>
+      <ul>
+        <li><a href="file:///Users/Billy/CS180/PicklesTheFrog.github.io/index.html#about">About</a></li>
+        <li><a href="file:///Users/Billy/CS180/PicklesTheFrog.github.io/index.html#projects">Projects</a></li>
+        <li><a href="file:///Users/Billy/CS180/PicklesTheFrog.github.io/index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Project Four: Neural Radiance Field</h2>
+    <h3>Part 0 Calibrating Your Camera and Capturing a 3D Scan</h3>
+    <p>
+        <img src="./Project Four_ Neural Radiance Field_files/frustrum_appa_0.png" alt="frustrum_appa_0.jpg" width="45%">
+        <img src="./Project Four_ Neural Radiance Field_files/frustrum_appa_1.png" alt="frustrum_appa_1.jpg" width="45%">
+    </p>
+    <br>
+
+    <h3>Part 1: Fit a Neural Field to a 2D Image</h3>
+    <p>Model Architecture: 4 layers, 256 nodes per layer, learning rate 0.01, 
+        batch size 10000, 1000 gradient steps.</p>
+    <p>
+        Training Progression Visualization (Epoch 0, 5, 10, 14)<br>
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_0.png" alt="fox_img_0.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_5.png" alt="fox_img_5.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_10.png" alt="fox_img_10.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_14.png" alt="fox_img_14.jpg" width="24%">
+    </p><br>
+       <p>
+        Training Progression Visualization (Epoch 0, 10, 20, 40)<br>
+        <img src="./Project Four_ Neural Radiance Field_files/pickles_img_0.png" alt="pickles_img_0.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/pickles_img_10.png" alt="pickles_img_10.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/pickles_img_20.png" alt="pickles_img_20.jpg" width="24%">
+        <img src="./Project Four_ Neural Radiance Field_files/pickles_img_40.png" alt="pickles_img_40.jpg" width="24%">
+    </p><br>        
+    <p>
+        Max positional encoding = 4, 10 (columns); width = 128, 256 (rows)<br>
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_n4_w128.png" alt="fox_img_n4_w128.jpg" width="45%">
+        <img src="./Project Four_ Neural Radiance Field_files/fox_image_w128.png" alt="fox_image_w128.jpg" width="45%"><br>
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_n4.png" alt="fox_img_n4.jpg" width="45%">
+        <img src="./Project Four_ Neural Radiance Field_files/fox_img_14.png" alt="fox_img_14.jpg" width="45%">
+    </p>
+    <p>
+        PNSR curve for training of fox image.
+        <img src="./Project Four_ Neural Radiance Field_files/PNSR_wrt_epoch.png" alt="PNSR_wrt_epoch.jpg" width="80%">
+    </p>
+    <br>
+
+    <h3>Part 2: Fit a Neural Field to a 2D Image</h3>
+    <p>
+        First I implemented the RaysData class with serves as a dataset. 
+        Given a tensor of images to train on, the camera matrix, 
+        and the camera to world matrices corresponding to the images, the class would provide 
+        a dataset that provides batches of points in 3D space, directional vectors and pixel colors.
+    </p><br>
+    <p>
+        Then I created a model to train, which was modeled after the one in the specs.
+        It takes in positionally encoded values of rays_o (points in 3D space) and runs it through
+        the model. It also reintroduces the same input in the middle of the model so the original inputs
+        are not lost. The model then branches into 2 parts to learn the density and color of the pixels.
+        For the density branch, rays_d is fed into the model.
+    </p><br>
+    <p>
+        To train the model, get batches of rays_o, rays_d, and pixel tensors from the dataset.
+        Then for each rays_o, rays_d, sample points along the ray and then positionally encode them
+        and batch all the results together and send them through the model. The loss is caluculated
+        by comparing the predicted pixel intensities (derived by using the volrend function on the outputted values) 
+        with the given pixel intensities. Then backpropagation occurs.
+    </p><br>
+    <p>
+        To show the images, rays are computed based off of c2ws_test and then used as inputs to the learned
+        model. The outputted pixels are then combined into an image and shown.
+    </p><br>
+    <p>
+        Sample along rays takes a point and a direction and adds the direction vector to the point n times,
+        with some randomness added to reduce overfitting.
+    </p><br>
+    <p>
+        Volrend is implemented by converting densities to alphas, computing accumulated transmittance along the ray, 
+        forming NeRF weights, and summing weighted RGBs to produce final pixel colors.
+    </p><br>
+    <p>
+        Rays are derived from c2ws by undoing the camera projection and then mapping those directions into world space. 
+        Each pixel (u,v,1) is multiplied by the inverse intrinsic matrix K_inv to convert it into a direction vector in the camera's coordinate frame. 
+        That camera-space direction is then rotated into world coordinates using the rotation part of the camera-to-world matrix, and normalized. 
+        The ray origin for all pixels is simply the camera position given by the translation vector of the pose matrix. 
+    </p><br>
+    <h4>Visualization of rays and samples with camera</h4>
+    <img src="./Project Four_ Neural Radiance Field_files/frustrum_lego.png" alt="frustrum_lego" width="95%">
+    <h4>Training Progression Visualization</h4> 
+    <p>
+        <img src="./Project Four_ Neural Radiance Field_files/lego_0.jpg" alt="lego_0.jpg" width="19%">
+        <img src="./Project Four_ Neural Radiance Field_files/lego_200.jpg" alt="lego_200.jpg" width="19%">
+        <img src="./Project Four_ Neural Radiance Field_files/lego_400.jpg" alt="lego_400.jpg" width="19%">
+        <img src="./Project Four_ Neural Radiance Field_files/lego_600.jpg" alt="lego_600.jpg" width="19%">
+        <img src="./Project Four_ Neural Radiance Field_files/lego_900.jpg" alt="lego_900.jpg" width="19%">
+    </p>
+    <h4>PNSR Curve</h4>
+    <img src="./Project Four_ Neural Radiance Field_files/PNSR_wrt_grad.png" alt="PNSR_wrt_grad" width="95%">    
+    <h4>Spherical rendering video of the Lego</h4>
+    <img src="./Project Four_ Neural Radiance Field_files/lego_nerf.gif" alt="lego_nerf" width="95%">
+    
+    <h3>Part 2: Fit a Neural Field to a 2D Image</h3>
+    <p> I was unable to successfully create a rendering from real data</p>
+    <img src="./Project Four_ Neural Radiance Field_files/IMG_4680.jpg" alt="IMG_4583" width="45%">
+    <img src="./Project Four_ Neural Radiance Field_files/appa_0train.jpg" alt="appa_0train" width="45%">
+    <p>I changed near and far from 2 and 6 to 0.5 and 2. 
+    I increased max positional encoding from 10 to 16. </p>
+  </section>
+
+  <footer>
+    <p>© 2025 Billy Ou. All rights reserved.</p>
+  </footer>
+
+</body></html>
