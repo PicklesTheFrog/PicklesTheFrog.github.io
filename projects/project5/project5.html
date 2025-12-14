@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Five: The Power of Diffusion Models</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <h1 class="logo"><a href="../../index.html">My Portfolio</a></h1>
+      <ul>
+        <li><a href="../../index.html#about">About</a></li>
+        <li><a href="../../index.html#projects">Projects</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Project Five: The Power of Diffusion Models</h2>
+    <h2>Part A</h2>
+    <h3>Part 0: Setup</h3>
+    <p>
+        <p>Prompt: A willow tree in the middle of a glowing pond, inference steps: 20</p>
+        <p>Prompt: An angel wrapped in chains, inference steps: 20</p>
+        <p>Prompt: A pickle in the shape of a frog, inference steps: 40</p>
+        <img src="images/willow.png" alt="willow" width="30%">
+        <img src="images/chained_angel.png" alt="chained_angel" width="30%">
+        <img src="images/pickle_frog_40.png" alt="pickle_frog_40" width="30%"><br>
+
+        
+        Random seed: 100<br>
+    </p>
+    <br>
+
+    <h3>Part 1: Sampling Loops</h3>
+    <h4>Part 1.1: Implementing the Forward Process</h4>
+        <p>Camanile images with noise levels: 250, 500, 750.</p>
+        <img src="images/campanile_250.png" alt="campanile_250" width="30%">
+        <img src="images/campanile_500.png" alt="campanile_500" width="30%">
+        <img src="images/campanile_750.png" alt="campanile_750" width="30%"><br>
+
+    <h4>Part 1.2: Classical Denoising</h4>
+        <p>Camanile images with noise levels: 250, 500, 750 along with their Gaussian-denoised counterparts.</p>
+        <img src="images/campanile_250.png" alt="campanile_250" width="30%">
+        <img src="images/campanile_500.png" alt="campanile_500" width="30%">
+        <img src="images/campanile_750.png" alt="campanile_750" width="30%"><br>
+        <img src="images/campanile_250_blur.png" alt="campanile_250_blur" width="30%">
+        <img src="images/campanile_500_blur.png" alt="campanile_500_blur" width="30%">
+        <img src="images/campanile_750_blur.png" alt="campanile_750_blur" width="30%"><br>
+    
+    <h4>Part 1.3: One Step Denoising</h4>
+        <p>Original Image</p>
+        <img src="images/campanile.png" alt="campanile" width="30%"><br>
+        <p>Camanile images with noise levels: 250, 500, 750 along with their one-step-denoised counterparts.</p>
+        <img src="images/campanile_250.png" alt="campanile_250" width="30%">
+        <img src="images/campanile_500.png" alt="campanile_500" width="30%">
+        <img src="images/campanile_750.png" alt="campanile_750" width="30%"><br>
+        <img src="images/campanile_250_one_step.png" alt="campanile_250_one_step" width="30%">
+        <img src="images/campanile_500_one_step.png" alt="campanile_500_one_step" width="30%">
+        <img src="images/campanile_750_one_step.png" alt="campanile_750_one_step" width="30%"><br>
+    
+      <h4>Part 1.4: Iterative Denoising</h4>
+        <p>Camanile images every 5th loop of denoising using iterative denoising.</p>
+        <img src="images/campanile_iterative_1.png" alt="campanile_iterative_1" width="30%">
+        <img src="images/campanile_iterative_2.png" alt="campanile_iterative_2" width="30%">
+        <img src="images/campanile_iterative_3.png" alt="campanile_iterative_3" width="30%">
+        <img src="images/campanile_iterative_4.png" alt="campanile_iterative_4" width="30%">
+        <img src="images/campanile_iterative_5.png" alt="campanile_iterative_5" width="30%">
+        <img src="images/campanile_iterative_6.png" alt="campanile_iterative_6" width="30%">
+        <p>Final image using iterative denoising, using one denoising step, and using gaussian blurring:</p>
+        <img src="images/campanile_iterative_6.png" alt="campanile_iterative_6" width="30%">
+        <img src="images/campanile_250_one_step.png" alt="campanile_750_one_step" width="30%">
+        <img src="images/campanile_750_blur.png" alt="campanile_750_blur" width="30%">
+   
+      <h4>Part 1.5: Diffusion Model Sampling</h4>
+        <p>5 sampled images of a diffusion model using the prompt: "a high quality photo".</p>
+        <img src="images/diffusion_sample_1.png" alt="diffusion_sample_1" width="18%">
+        <img src="images/diffusion_sample_2.png" alt="diffusion_sample_2" width="18%">
+        <img src="images/diffusion_sample_3.png" alt="diffusion_sample_3" width="18%">
+        <img src="images/diffusion_sample_4.png" alt="diffusion_sample_4" width="18%">
+        <img src="images/diffusion_sample_5.png" alt="diffusion_sample_5" width="18%">
+    
+      <h4>Part 1.6: Classifier-Free Guidance</h4>
+        <p>5 sampled images of a diffusion model using the prompt: "a high quality photo". CFG scale y = 7.</p>
+        <img src="images/CFG_sample_1.png" alt="CFG_sample_1" width="18%">
+        <img src="images/CFG_sample_2.png" alt="CFG_sample_2" width="18%">
+        <img src="images/CFG_sample_3.png" alt="CFG_sample_3" width="18%">
+        <img src="images/CFG_sample_4.png" alt="CFG_sample_4" width="18%">
+        <img src="images/CFG_sample_5.png" alt="CFG_sample_5" width="18%">
+    
+      <h4>Part 1.7.1: Image-to-image Translation</h4>
+        <p>Orignal Images</p>
+        <img src="images/campanile.png" alt="campanile" width="16%">
+        <img src="images/cat_scarf.png" alt="cat_scarf" width="16%">
+        <img src="images/gold_dog.png" alt="gold_dog" width="16%">
+        <img src="images/zero.png" alt="zero" width="16%">
+        <img src="images/amogus.png" alt="amogus" width="16%">
+        <img src="images/bow.png" alt="bow" width="16%">
+        <p> Edits of the Campanile image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_1.png" alt="im_to_im_1" width="16%">
+        <img src="images/im_to_im_2.png" alt="im_to_im_2" width="16%">
+        <img src="images/im_to_im_3.png" alt="im_to_im_3" width="16%">
+        <img src="images/im_to_im_4.png" alt="im_to_im_4" width="16%">
+        <img src="images/im_to_im_5.png" alt="im_to_im_5" width="16%">
+        <img src="images/im_to_im_6.png" alt="im_to_im_6" width="16%">
+        <p> Edits of "a cat wrapped in a scarf" image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_cat_1.png" alt="im_to_im_cat_1" width="16%">
+        <img src="images/im_to_im_cat_2.png" alt="im_to_im_cat_2" width="16%">
+        <img src="images/im_to_im_cat_3.png" alt="im_to_im_cat_3" width="16%">
+        <img src="images/im_to_im_cat_4.png" alt="im_to_im_cat_4" width="16%">
+        <img src="images/im_to_im_cat_5.png" alt="im_to_im_cat_5" width="16%">
+        <img src="images/im_to_im_cat_6.png" alt="im_to_im_cat_6" width="16%">
+        <p> Edits of "a dog made of gold" image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_dog_1.png" alt="im_to_im_dog_1" width="16%">
+        <img src="images/im_to_im_dog_2.png" alt="im_to_im_dog_2" width="16%">
+        <img src="images/im_to_im_dog_3.png" alt="im_to_im_dog_3" width="16%">
+        <img src="images/im_to_im_dog_4.png" alt="im_to_im_dog_4" width="16%">
+        <img src="images/im_to_im_dog_5.png" alt="im_to_im_dog_5" width="16%">
+        <img src="images/im_to_im_dog_6.png" alt="im_to_im_dog_6" width="16%">
+        <p> Edits of zero image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_zero_1.png" alt="im_to_im_zero_1" width="16%">
+        <img src="images/im_to_im_zero_2.png" alt="im_to_im_zero_2" width="16%">
+        <img src="images/im_to_im_zero_3.png" alt="im_to_im_zero_3" width="16%">
+        <img src="images/im_to_im_zero_4.png" alt="im_to_im_zero_4" width="16%">
+        <img src="images/im_to_im_zero_5.png" alt="im_to_im_zero_5" width="16%">
+        <img src="images/im_to_im_zero_6.png" alt="im_to_im_zero_6" width="16%">
+        <p> Edits of amogus image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_amogus_1.png" alt="im_to_im_amogus_1" width="16%">
+        <img src="images/im_to_im_amogus_2.png" alt="im_to_im_amogus_2" width="16%">
+        <img src="images/im_to_im_amogus_3.png" alt="im_to_im_amogus_3" width="16%">
+        <img src="images/im_to_im_amogus_4.png" alt="im_to_im_amogus_4" width="16%">
+        <img src="images/im_to_im_amogus_5.png" alt="im_to_im_amogus_5" width="16%">
+        <img src="images/im_to_im_amogus_6.png" alt="im_to_im_amogus_6" width="16%">
+        <p> Edits of bow image, using the prompt, "a high quality photo", at noise levels [1, 3, 5, 7, 10, 20].</p>
+        <img src="images/im_to_im_bow_1.png" alt="im_to_im_bow_1" width="16%">
+        <img src="images/im_to_im_bow_2.png" alt="im_to_im_bow_2" width="16%">
+        <img src="images/im_to_im_bow_3.png" alt="im_to_im_bow_3" width="16%">
+        <img src="images/im_to_im_bow_4.png" alt="im_to_im_bow_4" width="16%">
+        <img src="images/im_to_im_bow_5.png" alt="im_to_im_bow_5" width="16%">
+        <img src="images/im_to_im_bow_6.png" alt="im_to_im_bow_6" width="16%">
+      <h4>Part 1.7.2: Impainting</h4>
+        <p>Orignal Images and Impainted Versions</p>
+        <img src="images/campanile.png" alt="campanile" width="30%">
+        <img src="images/zero.png" alt="zero" width="30%">
+        <img src="images/gold_dog.png" alt="gold_dog" width="30%"><br>
+        <img src="images/campanile_impaint.png" alt="campanile_impaint" width="30%">
+        <img src="images/zero_impaint.png" alt="zero_impaint" width="30%">
+        <img src="images/gold_dog_impaint.png" alt="gold_dog_impaint" width="30%"><br>
+
+      <h4>Part 1.7.3: Text-Conditional Image-to_image Translation</h4>
+        <p>Original Images</p>
+        <img src="images/campanile.png" width="30%">
+        <img src="images/zero.png" width="30%">
+        <img src="images/gold_dog.png" width="30%"><br>
+        <p>Willow Tree to Campanile</p>
+        <img src="images/willow_to_campanile_1.png" width="16%">
+        <img src="images/willow_to_campanile_2.png" width="16%">
+        <img src="images/willow_to_campanile_3.png" width="16%">
+        <img src="images/willow_to_campanile_4.png" width="16%">
+        <img src="images/willow_to_campanile_5.png" width="16%">
+        <img src="images/willow_to_campanile_6.png" width="16%"><br>
+        <p>Black Knight to Zero</p>
+        <img src="images/black_knight_to_zero_1.png" width="16%">
+        <img src="images/black_knight_to_zero_2.png" width="16%">
+        <img src="images/black_knight_to_zero_3.png" width="16%">
+        <img src="images/black_knight_to_zero_4.png" width="16%">
+        <img src="images/black_knight_to_zero_5.png" width="16%">
+        <img src="images/black_knight_to_zero_6.png" width="16%"><br>
+        <p>Cat in Scarf to Gold Dog</p>
+        <img src="images/cat_to_dog_1.png" width="16%">
+        <img src="images/cat_to_dog_2.png" width="16%">
+        <img src="images/cat_to_dog_3.png" width="16%">
+        <img src="images/cat_to_dog_4.png" width="16%">
+        <img src="images/cat_to_dog_5.png" width="16%">
+        <img src="images/cat_to_dog_6.png" width="16%"><br>
+      <h4>Part 1.8: Visual Anagrams</h4>
+        <p>Embeddings: "A cat wearing a scarf", "A dog made of gold"</p>
+        <img src="images/dog_cat.png" width="45%">
+        <img src="images/dog_cat_flipped.png" width="45%"><br>
+        <p>Embeddings: "A black knight", "An angel wrapped in chains"</p>
+        <img src="images/knight_angel.png" width="45%">
+        <img src="images/knight_angel_flipped.png" width="45%"><br>
+      <h4>Part 1.9: Hybrid Images</h4>
+        <p>Embeddings: "An angel wrapped in chains", "A black knight"</p>
+        <p>Embeddings: "A pickle the shape of a frog", "A willow tree in the middle of a glowing pond"</p>
+        <img src="images/angel_knight_hybrid.png" width="45%">
+        <img src="images/frog_willow_hybrid.png" width="45%"><br>
+    <h2>Part B</h2>
+    <h3>Part 1: Training a Single-step Denoising UNet</h3>
+    <h4>Part 1.2: Using the UNet to Train a Denoiser</h4>
+      <p>Noised images. sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]</p>
+      <img src="images/im_noised_1.png" width="13%">
+      <img src="images/im_noised_2.png" width="13%">
+      <img src="images/im_noised_3.png" width="13%">
+      <img src="images/im_noised_4.png" width="13%">
+      <img src="images/im_noised_5.png" width="13%">
+      <img src="images/im_noised_6.png" width="13%">
+      <img src="images/im_noised_7.png" width="13%"><br>
+
+    <h4>Part 1.2.1: Training</h4>
+      <p>Training loss curve with sigma = 0.5</p>
+      <img src="images/unconditional_unet_loss.png" width="90%">
+      <p>Sample results on test set with noise level 0.5 (In, Noisy, Out), epoch = 1</p>
+      <img src="images/unet_input_first_1.png" width="30%">
+      <img src="images/unet_noisy_first_1.png" width="30%">
+      <img src="images/unet_out_first_1.png" width="30%"><br>
+      <img src="images/unet_input_first_2.png" width="30%">
+      <img src="images/unet_noisy_first_2.png" width="30%">
+      <img src="images/unet_out_first_2.png" width="30%"><br>
+      <img src="images/unet_input_first_3.png" width="30%">
+      <img src="images/unet_noisy_first_3.png" width="30%">
+      <img src="images/unet_out_first_3.png" width="30%"><br>
+      <p>Sample results on test set with noise level 0.5 (In, Noisy, Out), epoch = 5</p>
+      <img src="images/unet_input_1.png" width="30%">
+      <img src="images/unet_noisy_1.png" width="30%">
+      <img src="images/unet_out_1.png" width="30%"><br>
+      <img src="images/unet_input_2.png" width="30%">
+      <img src="images/unet_noisy_2.png" width="30%">
+      <img src="images/unet_out_2.png" width="30%"><br>
+      <img src="images/unet_input_3.png" width="30%">
+      <img src="images/unet_noisy_3.png" width="30%">
+      <img src="images/unet_out_3.png" width="30%"><br>
+
+    <h4>Part 1.2.2: Out-of-Distribution Testing</h4>
+      <p>Sample results on test set with out of distribution noise levels. sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]</p>
+      <img src="images/ood_unet_noisy_1.png" width="45%">
+      <img src="images/ood_unet_out_1.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_2.png" width="45%">
+      <img src="images/ood_unet_out_2.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_3.png" width="45%">
+      <img src="images/ood_unet_out_3.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_4.png" width="45%">
+      <img src="images/ood_unet_out_4.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_5.png" width="45%">
+      <img src="images/ood_unet_out_5.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_6.png" width="45%">
+      <img src="images/ood_unet_out_6.png" width="45%"><br>
+      <img src="images/ood_unet_noisy_7.png" width="45%">
+      <img src="images/ood_unet_out_7.png" width="45%"><br>
+
+    <h4>Part 1.2.3: Denoising Pure Noise</h4>
+      <p>Training loss curve for unet trained with pure noise input.</p>
+      <img src="images/pure_unet_loss.png" width="90%">
+      <p>Sample results on test set for pure noise unet. epoch = 1</p>
+      <img src="images/pure_unet_noise_first_1.png" width="45%">
+      <img src="images/pure_unet_out_first_1.png" width="45%"><br>
+      <img src="images/pure_unet_noise_first_2.png" width="45%">
+      <img src="images/pure_unet_out_first_2.png" width="45%"><br>
+      <img src="images/pure_unet_noise_first_3.png" width="45%">
+      <img src="images/pure_unet_out_first_3.png" width="45%"><br>
+      <p>Sample results on test set for pure noise unet. epoch = 5</p>
+      <img src="images/pure_unet_noise_1.png" width="45%">
+      <img src="images/pure_unet_out_1.png" width="45%"><br>
+      <img src="images/pure_unet_noise_2.png" width="45%">
+      <img src="images/pure_unet_out_2.png" width="45%"><br>
+      <img src="images/pure_unet_noise_3.png" width="45%">
+      <img src="images/pure_unet_out_3.png" width="45%"><br>
+      <p>All the sampled outputs look the same,
+        an amalgamation of all the numbers blurred together.
+        This is likely because the model learns the 
+        closest thing to the average number 
+        because it does not know which number to generate.</p>
+    <h3>Part 2: Training a Flow Matching Model</h3>
+    <h4>Part 2.2: Training the Unet</h3>
+      <p>Training loss curve for time condition unet trained with pure noise input.</p>
+      <img src="images/time_unet_loss.png" width="90%">
+    <h4>Part 2.3: Sampling from the Unet</h3>
+      <p>Sample outputs from time-conditioned unet, epoch = 1</p>
+      <img src="images/time_unet_1_samples.png" width="90%">
+      <p>Sample outputs from time-conditioned unet, epoch = 5</p>
+      <img src="images/time_unet_5_samples.png" width="90%">
+      <p>Sample outputs from time-conditioned unet, epoch = 10</p>
+      <img src="images/time_unet_10_samples.png" width="90%">
+    <h4>Part 2.5: Training the Unet</h3>
+      <p>Training loss curve for class-conditioned unet trained with pure noise input.</p>
+      <img src="images/class_unet_loss.png" width="90%">
+    <h4>Part 2.6: Sampling from the Unet</h3>
+      <p>Sample outputs from class-conditioned unet, epoch = 1</p>
+      <img src="images/class_unet_1_samples.png" width="90%">
+      <p>Sample outputs from class-conditioned unet, epoch = 5</p>
+      <img src="images/class_unet_5_samples.png" width="90%">
+      <p>Sample outputs from class-conditioned unet, epoch = 10</p>
+      <img src="images/class_unet_10_samples.png" width="90%">
+
+
+
+  </section>
+
+  <footer>
+    <p>© 2025 Billy Ou. All rights reserved.</p>
+  </footer>
+</body>
+</html>
